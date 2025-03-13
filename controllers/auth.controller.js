@@ -49,35 +49,74 @@ export const signUp = async (req, res, next) => {
 };
 
 export const signIn = async (req, res, next) => {
-    try{
-        const {email , password} = req.body;
+  try {
+    const { email, password } = req.body;
 
-        const user = await User.findOne({email});
-        if(!user){
-            const error = new Error("User not found");
-            error.status = 404;
-            throw error;
-        }
-
-        const isValidPassword = await bcrypt.compare(password, user.password);
-        if(!isValidPassword){
-            const error = new Error("Invalid password");
-            error.status = 401;
-            throw error;
-        }
-
-        const token = jwt.sign({ userId: user._id }, JWT_SECRET, {expiresIn:JWT_EXPIRES_IN});
-        res.status(200).json({
-            success: true,
-            message: 'User signed in successfully',
-            data: {
-              token,
-              user,
-            }
-          });
-    }catch(error){
-        next(error);
+    const user = await User.findOne({ email });
+    if (!user) {
+      const error = new Error("User not found");
+      error.status = 404;
+      throw error;
     }
+
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
+      const error = new Error("Invalid password");
+      error.status = 401;
+      throw error;
+    }
+
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRES_IN,
+    });
+    res.status(200).json({
+      success: true,
+      message: "User signed in successfully",
+      data: {
+        token,
+        user,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-export const signOut = async (req, res, next) => {};
+export const signOut = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        message: "Authentication token is missing or invalid",
+      });
+    }
+
+    const token = authHeader.split(" ")[1];
+
+    // Verify the token
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET);
+
+      // Get user from database
+      const user = await User.findById(decoded.userId);
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+      return res.status(200).json({
+        success: true,
+        message: "User signed out successfully",
+      });
+    } catch (err) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid or expired token",
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
