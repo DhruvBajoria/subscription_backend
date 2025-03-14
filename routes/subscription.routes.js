@@ -14,7 +14,7 @@ const subscriptionRouter = Router();
 
 subscriptionRouter.get("/upcoming-renewals", authorize, getUpcomingUserSubscriptions);
 
-subscriptionRouter.get("/", authorize, getSubscriptions);
+subscriptionRouter.get("/", getSubscriptions);
 
 subscriptionRouter.get("/:id", authorize, getSubscription);
 
