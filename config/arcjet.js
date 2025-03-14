@@ -9,9 +9,7 @@ const aj = arcjet({
     detectBot({
       mode: "LIVE",
       allow: [ "CATEGORY:SEARCH_ENGINE",
-         "HEADER:User-Agent=PostmanRuntime/*",  // ✅ Allow Postman
-        "HEADER:Accept=*/*",  // ✅ Allow Postman’s accept header
-        "IP:CLOUDFLARE",  
+         "PostmanRuntime"  
        ],
     }),
     tokenBucket({
