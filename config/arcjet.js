@@ -9,7 +9,8 @@ const aj = arcjet({
     detectBot({
       mode: "LIVE",
       allow: [ "CATEGORY:SEARCH_ENGINE",
-         "PostmanRuntime"  
+              "CATEGORY:API_CLIENT",
+              "USER_AGENT:Postman"  
        ],
     }),
     tokenBucket({
