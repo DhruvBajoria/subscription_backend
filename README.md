@@ -1,4 +1,9 @@
 # Subscription Backend
+![Node.js](https://img.shields.io/badge/Node.js-18.x-green)
+![Express](https://img.shields.io/badge/Express.js-4.x-blue)
+![MongoDB](https://img.shields.io/badge/MongoDB-6.x-brightgreen)
+![License](https://img.shields.io/github/license/DhruvBajoria/subscription_backend)
+
 
 ## 🚀 Overview
 
