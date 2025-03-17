@@ -26,6 +26,32 @@ The **Subscription Backend** is a robust and scalable API service designed for m
 
 ---
 
+## 📌 Architecture and System Flow
+
+```mermaid
+graph TD;
+    A[app.js] -->|Imports| B[Routes];
+    A --> C[Config];
+    A --> D[Middlewares];
+    A --> E[Error Handler];
+
+    B --> F[Auth Routes];
+    B --> G[User Routes];
+    B --> H[Subscription Routes];
+    B --> I[Workflow Routes];
+
+    F --> J[Auth Controller];
+    G --> K[User Controller];
+    H --> L[Subscription Controller];
+    I --> M[Workflow Controller];
+
+    J --> N[User Model];
+    K --> N;
+    L --> O[Subscription Model];
+    M --> O;
+```
+---
+
 ## 🏠 Installation & Setup
 
 ### 🔹 Prerequisites
